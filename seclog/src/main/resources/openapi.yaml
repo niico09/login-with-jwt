@@ -1,0 +1,621 @@
+openapi: 3.0.0
+info:
+  title: BEERS IN MEETINGS
+  termsOfService: https://www.santander.com.ar/banco/online/personas
+  contact:
+    email: ngomez@gmail.com
+  version: "1.0"
+servers:
+- url: http://localhost:8080/api
+tags:
+- name: Beer project
+  description: |
+    Este documento presenta la especificación de la interface RESTful para la ejecución y administración de los endpoint del proyecto
+paths:
+  /meetings/rooms:
+    post:
+      tags:
+      - MEETINGS
+      description: |
+        Permite crear nuevas salas
+      operationId: createRoom
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JsonRoom'
+      responses:
+        "200":
+          description: Ante éxito se retorna el ID del la nueva sala creada.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonRoomResponseOk'
+        default:
+          description: Respuesta ante error para todos los casos posibles, cambia
+            código de status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonRoomResponseError'
+  /meetings/roomReserved:
+    get:
+      tags:
+      - MEETINGS
+      description: |
+        Consulta todas las salas reservadas
+      operationId: findRoomReserved
+      responses:
+        "200":
+          description: Ante éxito se retornan todas las salas reservadas
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonRoomReservedResponseOk'
+        default:
+          description: Respuesta ante error para todos los casos posibles, cambia
+            código de status (httpStatusCode)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonRoomReservedResponseError'
+  /rooms/{id}:
+    get:
+      tags:
+      - MEETINGS
+      description: |
+        Consulta una tabla reservada
+      operationId: findOne
+      parameters:
+      - name: id
+        in: path
+        description: Es el ID de la meeting a buscar.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+        example: 49
+      responses:
+        "200":
+          description: La solicitud ha tenido éxito
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonRoomReservedResponseOk'
+        default:
+          description: Respuesta ante error para todos los casos posibles, cambia
+            la description de data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonGetRoomReservedResponseError'
+  /rooms:
+    get:
+      tags:
+      - MEETINGS
+      description: "Obtiene todas las salas \n"
+      operationId: findAllRoom
+      responses:
+        "200":
+          description: La solicitud ha tenido éxito
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonRoomsResponseOk'
+        default:
+          description: Respuesta ante error para todos los casos posibles, cambia
+            la description de data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonRoomReservedResponseError'
+  /reserve/{id}:
+    post:
+      tags:
+      - MEETINGS
+      description: |
+        Reserva una sala.
+      operationId: Import
+      parameters:
+      - name: id
+        in: path
+        description: |
+          Este parámetro indica la ID de la sala a reservar
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+        example: 1 | 2 | 3
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JsonRoomReserved'
+      responses:
+        "200":
+          description: La solicitud ha tenido éxito
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonRoomReservedResponseOk'
+        default:
+          description: Respuesta ante error para todos los casos posibles, cambia
+            la description de data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonRoomReservedResponseError'
+  /inscript:
+    put:
+      tags:
+      - MEETINGS
+      description: |
+        El usuario se inscribe a una.
+      operationId: suscribeMeeting
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JsonInscriptRoom'
+      responses:
+        "200":
+          description: La solicitud ha tenido éxito
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonInscriptResponseOk'
+        default:
+          description: Respuesta ante error para todos los casos posibles, cambia
+            la description de data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonInscriptResponseError'
+  /beers/{id}:
+    get:
+      tags:
+      - MEETINGS
+      description: |
+        El obtiene la cantidad de cervezas que la meeting necesita.
+      operationId: geetBeersNecesary
+      parameters:
+      - name: id
+        in: path
+        description: |
+          Este parámetro indica la ID de la sala a reservar
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+        example: 1 | 2 | 3
+      responses:
+        "200":
+          description: La solicitud ha tenido éxito
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonBeersResponseOk'
+        default:
+          description: Respuesta ante error para todos los casos posibles, cambia
+            la description de data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonBeersResponseError'
+  /weather/{id}:
+    get:
+      tags:
+      - MEETINGS
+      description: |
+        El usuario se inscribe a una.
+      operationId: geetWeather
+      parameters:
+      - name: id
+        in: path
+        description: |
+          Este parámetro indica la ID de la sala a reservar
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+        example: 1 | 2 | 3
+      responses:
+        "200":
+          description: La solicitud ha tenido éxito
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonWheaterResponseOk'
+        default:
+          description: Respuesta ante error para todos los casos posibles, cambia
+            la description de data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonGetRoomReservedResponseError'
+  /checkin:
+    put:
+      tags:
+      - MEETINGS
+      description: |
+        El usuario se inscribe a una.
+      operationId: checkin
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JsonInscriptRoom'
+      responses:
+        "200":
+          description: La solicitud ha tenido éxito
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonInscriptResponseOk'
+        default:
+          description: Respuesta ante error para todos los casos posibles, cambia
+            código de error (code) y de status (httpStatusCode), se envía el detalle
+            de error dentro de data como un string.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonInscriptResponseError'
+  /auth/signin:
+    post:
+      tags:
+      - LOGIN
+      description: "Realiza login autenticando el usuario, utilizando su usuario,\
+        \ password. \n"
+      operationId: Login
+      requestBody:
+        description: El body es un objeto JSON que representa los parámetros necesarios
+          para realizar el login.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JsonUserParameter'
+      responses:
+        "200":
+          description: La solicitud ha tenido éxito
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonLoggedUser'
+        default:
+          description: Respuesta ante error para todos los casos posibles, cambia
+            código de error (code) y de status (httpStatusCode), se envía el detalle
+            de error dentro de data como un string.
+          content:
+            application/json:
+              example:
+                code: 2013
+                httpStatusCode: 401
+                dateTime: 2020-08-14T19:37:33.384Z
+                path: http://10.232.15.137:8888/clsc-command-api/v1/LOGIN
+                description: USUARIO NAO LOGADO NO SISTEMA.;
+                data: []
+  /auth/signup:
+    post:
+      tags:
+      - LOGIN
+      description: "Agrega un nuevo usuario al sistema . \n"
+      operationId: SIGNUP
+      requestBody:
+        description: El body es un objeto JSON que representa los parametros necesario
+          para realizar el signup del usuario
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JsonLoggedUser'
+      responses:
+        "204":
+          description: La solicitud ha tenido éxito
+          content:
+            application/json:
+              example: {}
+        "401":
+          description: Forbidden
+          content:
+            application/json:
+              example: {}
+components:
+  schemas:
+    JsonBeersResponseOk:
+      required:
+      - data
+      - dateTime
+      - message
+      properties:
+        message:
+          type: string
+          example: Operation successful!
+        dateTime:
+          type: string
+          example: 2020/10/24 15:05:56
+        data:
+          type: string
+          example: The meeting need 6 and start at 2020-10-23T14:26:42
+      description: |
+        Generic response
+    JsonBeersResponseError:
+      required:
+      - data
+      - dateTime
+      - message
+      properties:
+        message:
+          type: string
+          example: An error ocurrer in the server!
+        dateTime:
+          type: string
+          example: 2020/10/24 15:05:56
+        data:
+          type: string
+          example: The meeting doesn't exist
+      description: |
+        Generic response
+    JsonInscriptResponseOk:
+      required:
+      - data
+      - dateTime
+      - message
+      properties:
+        message:
+          type: string
+          example: Operation successful!
+        dateTime:
+          type: string
+          example: 2020/10/24 15:02:43
+        data:
+          type: string
+          example: Room_User{user_id=1, room_id=49}
+      description: |
+        Generic response
+    JsonWheaterResponseOk:
+      required:
+      - data
+      - dateTime
+      - message
+      properties:
+        message:
+          type: string
+          example: Operation successful!
+        dateTime:
+          type: string
+          example: 2020/10/24 15:02:43
+        data:
+          type: string
+          example: 'In the day, the meetings start at: 2020-10-24T20:20:20 and it''s
+            20 grades'
+      description: |
+        Generic response
+    JsonInscriptResponseError:
+      required:
+      - data
+      - dateTime
+      - message
+      properties:
+        message:
+          type: string
+          example: An error ocurred in the server!
+        dateTime:
+          type: string
+          example: 2020/10/24 14:52:38
+        data:
+          type: string
+          example: Bad id room and id user, please check this information and retry
+            again
+      description: |
+        Generic response
+    JsonRoomsResponseOk:
+      required:
+      - data
+      - dateTime
+      - message
+      properties:
+        message:
+          type: string
+          example: Operation successful!
+        dateTime:
+          type: string
+          example: 2020/10/24 14:43:23
+        data:
+          type: string
+          example: Room{id=40, location='SALA A4', hourStart='2020-10-20T22:10:20',
+            hourEnd='2020-10-20T23:10:20', state='FINISHED'}, Room{id=41, location='SALA
+            A3', hourStart='2020-10-21T14:26:42', hourEnd='2020-10-21T15:26:42', state='NOT_RESERVED'},
+            Room{id=46, location='SALA A3', hourStart='2020-10-20T22:10:20', hourEnd='2020-10-20T23:10:20',
+            state='FINISHED'}, Room{id=49, location='SALA A4', hourStart='2020-10-24T20:20:20',
+            hourEnd='2020-10-24T21:20:20', state='RESERVED'}, Room{id=53, location='SALA
+            A1', hourStart='null', hourEnd='null', state='null'}, Room{id=54, location='SALA
+            A1', hourStart='2020-10-24T14:26:42', hourEnd='2020-10-24T15:26:42', state='STARTED'},
+            Room{id=55, location='SALA a5', hourStart='null', hourEnd='null', state='null'},
+            Room{id=56, location='SALA a5', hourStart='null', hourEnd='null', state='null'}
+      description: |
+        Generic response
+    JsonRoomResponseOk:
+      required:
+      - data
+      - dateTime
+      - message
+      properties:
+        message:
+          type: string
+          example: Operation successful!
+        dateTime:
+          type: string
+          example: 2020/10/24 14:18:52
+        data:
+          type: string
+          example: Room{id=56, location='SALA a5', hourStart='null', hourEnd='null',
+            state='null'}
+      description: |
+        Generic response
+    JsonRoomResponseError:
+      required:
+      - dateTime
+      - message
+      - status
+      properties:
+        dateTime:
+          type: string
+          example: 2020/10/24 14:32:50
+        status:
+          type: integer
+          format: int32
+          example: 400
+        message:
+          type: string
+          description: se especificara el error ocurrido
+          example: location is required
+    JsonUserParameter:
+      properties:
+        userName:
+          type: string
+          example: ADMIN
+        password:
+          type: string
+          example: ADMINPASS
+        email:
+          type: string
+          example: ngomez@gmail.com
+      description: |
+        Body del command login.
+    JsonLoggedUser:
+      properties:
+        userName:
+          type: string
+          example: ADMIN
+        organizationId:
+          type: integer
+          format: int64
+          example: 1234
+        token:
+          type: string
+          example: TOKEN
+        language:
+          type: string
+          example: es_AR
+        timeZone:
+          type: string
+          example: America/Argentina/Buenos_Aires
+        timeZoneOffset:
+          type: integer
+          format: int64
+          example: 10800000
+        email:
+          type: string
+          example: qwerty@genericMail.com
+        firstName:
+          type: string
+          example: admin
+        lastName:
+          type: string
+          example: ister
+        roles:
+          type: array
+          example:
+          - name: SUPERADMIN
+            text: Role of general administrator of the platform
+            permissions: []
+        applications:
+          type: array
+          example:
+          - QWERTY
+          - ASD
+        internal:
+          type: boolean
+          example: false
+        userData:
+          type: object
+          example: {}
+      description: |
+        Body del objeto de usuario logeado.
+    JsonRoom:
+      required:
+      - location
+      properties:
+        location:
+          type: string
+          example: SALA A4
+      description: |
+        Body de la entidad Room
+    JsonRoomReserved:
+      required:
+      - location
+      properties:
+        hourStart:
+          type: string
+          example: 2020-10-19T18:46:19
+        hourEnd:
+          type: string
+          example: 2020-10-19T18:46:19
+    JsonInscriptRoom:
+      required:
+      - location
+      properties:
+        user_id:
+          type: integer
+          example: 49
+        room_id:
+          type: integer
+          example: 2
+      description: |
+        Body de la entidad Room
+    JsonRoomReservedResponseOk:
+      required:
+      - data
+      - dateTime
+      - message
+      properties:
+        message:
+          type: string
+          example: Operation successful!
+        dateTime:
+          type: string
+          example: 2020/10/24 14:37:36
+        data:
+          type: string
+          example: Room{id=49, location='SALA A4', hourStart='2020-10-24T20:20:20',
+            hourEnd='2020-10-24T21:20:20', state='RESERVED'}
+      description: |
+        Generic response
+    JsonRoomReservedResponseError:
+      required:
+      - data
+      - dateTime
+      - message
+      properties:
+        message:
+          type: string
+          example: An error ocurrer in the server!
+        dateTime:
+          type: string
+          example: 2020/10/24 14:37:36
+        data:
+          type: string
+          example: Internal Error Server
+      description: |
+        Generic response
+    JsonGetRoomReservedResponseError:
+      required:
+      - data
+      - dateTime
+      - message
+      properties:
+        message:
+          type: string
+          example: An error ocurrer in the server!
+        dateTime:
+          type: string
+          example: 2020/10/24 14:37:36
+        data:
+          type: string
+          example: This room doesn't exist
+      description: |
+        Generic response
