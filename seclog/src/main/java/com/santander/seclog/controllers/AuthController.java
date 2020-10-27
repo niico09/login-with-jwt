@@ -31,9 +31,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/auth")
 public class AuthController {
 
-    //TODO: Para usar integracion con frontend: beer-project, descomentar todo esto
-
-	/*@Autowired
+    @Autowired
 	AuthenticationManager authenticationManager;
 
 	@Autowired
@@ -115,6 +113,6 @@ public class AuthController {
 		userRepository.save(user);
 
 		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
-	}*/
+	}
 
 }

@@ -23,8 +23,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    //TODO: Para probar solo backend, descomentar lo de abajo, si es para probar integracion con front: comentarlo
-
+    /*
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
@@ -49,12 +48,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.DELETE, "/rooms/**").hasRole("ADMIN")
                 .anyRequest().authenticated().and().csrf().disable();
     }
+*/
 
-    // Descomentar hasta este punto
-
-    //TODO: Para usar integracion con frontend: beer-project descomentar todo lo de abajo
-
-    /*
     @Autowired
     UserDetailsServiceImpl userDetailsService;
 
@@ -95,5 +90,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated();
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-    }*/
+    }
 }
