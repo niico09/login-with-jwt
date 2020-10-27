@@ -105,7 +105,7 @@ public class ScheduledMails {
 
     private void sendEmail(List<User> participates, long minutes, String location) {
 
-        String from = "nico.09g@gmail.com";
+        String from = "";
         String host = "smtp.gmail.com";
         Properties properties = System.getProperties();
 
